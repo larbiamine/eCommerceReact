@@ -5,12 +5,12 @@ import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const Container = styled.div`
-    height: 60px;
+    height: 80px;
     
     
 `
 const Wrapper = styled.div`
-    padding : 10px 20px;
+    padding : 0px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
