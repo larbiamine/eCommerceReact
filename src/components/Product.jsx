@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {FavoriteBorder, FavoriteBorderOutlined, SearchOutlined, ShoppingCart, ShoppingCartOutlined } from '@mui/icons-material'
+import {FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material'
 // import SearchIcon from '@mui/icons-material/SearchIcon'
 
 const Container = styled.div`
@@ -13,14 +13,6 @@ const Container = styled.div`
     justify-content: center;
     background-color: #FFCDB2;
     position: relative;
-`
-const Circle = styled.div`
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: white;
-    position: absolute;
-
 `
 const Image = styled.img`
     height: 75%;
