@@ -6,7 +6,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const Container = styled.div`
     height: 80px;
-
+    /* background-color: #AFBBF2; */
 `
 const Wrapper = styled.div`
     padding : 0px 20px;
@@ -21,6 +21,7 @@ const Left = styled.div`
 `
 const Language = styled.span `
     font-size: 14;
+    color: #292e2e;
     cursor: pointer;
 `
 const SearchContainer = styled.div `
@@ -40,6 +41,7 @@ const Center = styled.div`
 `
 const Logo = styled.h1`
     font-weight: bold;
+    color: #292e2e;
 `
 
 const Right = styled.div`
@@ -52,6 +54,7 @@ const MenuItem = styled.div`
     font-size: 14px;
     cursor: pointer;
     margin-left: 25px;
+    color: #292e2e;
 `
 
 function Navbar() {
