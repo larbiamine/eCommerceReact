@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
 import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowRightOutlined';
 import {sliderItems} from "../data" 
+import {mobile} from '../responsive'
 
 const Container = styled.div`
     width: 100%;
@@ -11,6 +12,9 @@ const Container = styled.div`
     /* background-color: #AFBBF2; */
     position: relative;
     overflow: hidden;
+    ${mobile({
+        display: "none"
+    })}
 `
 const Arrow = styled.div`
 
@@ -36,7 +40,7 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
   transition: all 1.5s ease;
-  transform: translate(${ (props) => props.slideIndex * -100}vw);
+  transform: translateX(${ (props) => props.slideIndex * -100}vw);
 `
 const Slide = styled.div`
   width: 100vw;

@@ -7,12 +7,16 @@ import Announcements from '../components/Announcements'
 import img1 from '../imgs/cart/1.png'
 import img2 from '../imgs/cart/2.png'
 import { Add, Remove } from '@mui/icons-material'
+import { mobile } from '../responsive'
 
 const Container = styled.div`
 
 `
 const Wrapper = styled.div`
     padding: 20px;
+    ${mobile({
+        padding: "10px",
+    })}
 `
 const Title = styled.h1`
     font-weight: 300;
@@ -33,16 +37,24 @@ const TopButton = styled.button`
     color: ${(props) => props.type === "filled" && "white" };
 `
 const TopTexts = styled.div`
-
+    ${mobile({
+      display: "none",
+    })}
 `
 const TopText = styled.span`
     text-decoration: underline;
     cursor: pointer;
     margin: 0px 10px ;
+    ${mobile({
+      display: "none",
+    })}
 `
 const Bottom = styled.div`
     display: flex;
     justify-content: space-between;
+    ${mobile({
+      flexDirection: "column",
+    })}
 `
 const Info = styled.div`
     flex: 3;
@@ -51,7 +63,9 @@ const Info = styled.div`
 const Product = styled.div`
     display: flex;
     justify-content: space-between;
-    
+    ${mobile({
+      flexDirection: "column",
+    })}
     `
 const PriceDetail = styled.div`
     flex: 1;
@@ -69,10 +83,16 @@ const ProductAmountContainer = styled.div`
 const ProductAmount = styled.div`
     font-size: 24px;
     margin: 5px;
+    ${mobile({
+        margin: "5px 15px",
+    })}
     `
 const ProductPrice = styled.div`
     font-size: 30px;
     font-weight: 200px;
+    ${mobile({
+      marginBottom: "20px",
+    })}
     `
 
 
@@ -159,8 +179,8 @@ function Cart() {
             <Bottom>
                 <Info>
                     <Product>
-                        <Image src={img1} ></Image>
                         <ProductDetail>
+                            <Image src={img1} ></Image>
                             <Details>
                                 <ProductName> <b>Product</b> Nike </ProductName>
                                 <ProductId> 547641656 </ProductId>
@@ -180,8 +200,8 @@ function Cart() {
                     </Product>
                     <Hr/>
                     <Product>
-                        <Image src={img2} ></Image>
                         <ProductDetail>
+                            <Image src={img2} ></Image>
                             <Details>
                                 <ProductName> <b>Product</b> Shoes </ProductName>
                                 <ProductId> 547647556 </ProductId>
