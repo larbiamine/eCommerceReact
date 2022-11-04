@@ -90,6 +90,10 @@ const Amount = styled.span`
     height: 30px;
     border-radius: 10px;
     border: 1px solid teal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
 `
 
 const Button = styled.button`
@@ -144,7 +148,7 @@ function Product() {
                 <AddContainer>
                     <AmountContainer>
                         <Remove/>
-                        <Amount></Amount>
+                        <Amount>1</Amount>
                         <Add/>
                     </AmountContainer>
                     <Button>ADD TO CART</Button>
