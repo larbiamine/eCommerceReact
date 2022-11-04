@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components'
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
 import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowRightOutlined';
-import sliderItems from "../dataslides" 
+import {sliderItems} from "../data" 
 
 const Container = styled.div`
     width: 100%;
@@ -35,6 +35,7 @@ const Arrow = styled.div`
 const Wrapper = styled.div`
   height: 100%;
   display: flex;
+  transition: all 1.5s ease;
   transform: translate(${ (props) => props.slideIndex * -100}vw);
 `
 const Slide = styled.div`
@@ -96,7 +97,7 @@ function Slider() {
           sliderItems.map((slide) => {
             return (
               
-              <Slide bg={slide.bg}>
+              <Slide bg={slide.bg} key={slide.id}>
                 <ImageContainer>
                   <Image src={slide.img} />
                 </ImageContainer>
@@ -114,7 +115,7 @@ function Slider() {
         )
         }
         </Wrapper>
-        <Arrow direction="right" onClick={() => handleClick("left")}>
+        <Arrow direction="right" onClick={() => handleClick("right")}>
           <KeyboardDoubleArrowRightOutlinedIcon/>
         </Arrow>
 

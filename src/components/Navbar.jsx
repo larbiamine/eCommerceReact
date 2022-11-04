@@ -6,8 +6,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const Container = styled.div`
     height: 80px;
-    
-    
+
 `
 const Wrapper = styled.div`
     padding : 0px 20px;
