@@ -69,10 +69,18 @@ function Products({category, filters, sort}) {
   return (
     <Container>
         {
-          filteredProducts.map(product => (
-            <Product item={product} key={product.id} />
-          )
-           )
+          
+          category ? filteredProducts.map(product => (
+                <Product item={product} key={product.id} />
+              )
+            )            
+          :
+            products.slice(0, 8).map(product => (
+              <Product item={product} key={product.id} />
+            )
+          ) 
+          
+
         }
     </Container>
   )

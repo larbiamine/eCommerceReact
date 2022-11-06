@@ -64,7 +64,7 @@ function ProductList() {
         <Container>
             <Announcements/>
             <Navbar/>
-            <Title>Dresses</Title>
+            <Title>{category}</Title>
             <FilterContainer>
                 <Filter>
                     <FilterText>Filter Products</FilterText>
@@ -74,6 +74,7 @@ function ProductList() {
                         <Option>Black</Option>
                         <Option>Red</Option>
                         <Option>Yellow</Option>
+                        <Option>Blue</Option>
                     </Select>
                     <Select name='size' onChange={handleFilters}>
                         <Option disabled >Size</Option>

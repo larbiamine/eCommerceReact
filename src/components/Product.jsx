@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material'
+import { Link, useLocation } from 'react-router-dom'
 // import SearchIcon from '@mui/icons-material/SearchIcon'
 
 const Container = styled.div`
@@ -55,7 +56,8 @@ const Icon = styled.div`
 `
 
 function Product({item}) {
-  return (
+
+    return (
     <Container>
         {/* <Circle/> */}
         <Image src={item.img} />
@@ -64,14 +66,16 @@ function Product({item}) {
                 <ShoppingCartOutlined/>
             </Icon>
             <Icon>
-                <SearchOutlined/>
+                <Link to={`/product/${item._id}`}>
+                    <SearchOutlined/>
+                </Link>
             </Icon>
             <Icon>
                 <FavoriteBorderOutlined/>
             </Icon>
         </Info>
     </Container>
-  )
+    )
 }
 
 export default Product

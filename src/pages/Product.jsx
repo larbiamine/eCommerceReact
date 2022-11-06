@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import Announcements from '../components/Announcements'
@@ -7,6 +7,8 @@ import Newsletter from '../components/Newsletter'
 import imgsrc from "../imgs/categories/2.jpg"
 import { Add, Remove } from '@mui/icons-material'
 import { mobile } from '../responsive'
+import { useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 const Container = styled.div`
 
@@ -23,7 +25,7 @@ const ImageContainer = styled.div`
     flex: 1;
 `
 const Image = styled.img`
-    width: 100%; 
+    width: 100%;
     height: 90vh;
     object-fit: cover;
     ${mobile({
@@ -127,46 +129,82 @@ const Button = styled.button`
 
 
 function Product() {
-  return (
+
+
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+
+    const [product, setProduct] = useState({});
+
+    const [quantity, setQuantity] = useState(1);
+
+
+    const handleQuantity = (method) => {
+        if (method === "add") {
+            setQuantity(quantity + 1)
+        }else{
+            setQuantity(quantity -1)
+        }
+    }
+
+    useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/api/products/find/${id}`);
+                setProduct(res.data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getProduct();
+
+    }, [id])
+
+
+
+    return (
     <Container>
         <Announcements/>
         <Navbar/>
         <Wrapper>
             <ImageContainer>
-                <Image src={imgsrc} />
+                <Image src={product.img} />
             </ImageContainer>
             <InfoContainer>
                 <Title>
-                    Praesent dapibus eros 
+                    {product.title}
                 </Title>
                 <Description>
-                    Ut mollis eu eros ut placerat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas fermentum tincidunt dui, in scelerisque elit finibus gravida. Vestibulum sit amet odio ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia 
+                    {product.description}
                 </Description>
                 <Price>
-                    20$
+                    ${product.price}
                 </Price>
                 <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>
-                        <FilterColor color = "black" />
-                        <FilterColor color = "teal" />
-                        <FilterColor color = "red" />
+                        {product.color?.map(color =>(
+                            <FilterColor color = {color} key={color}/>
+                        ))}
+
                     </Filter>
                     <Filter>
                         <FilterTitle>Size</FilterTitle>
                             <FilterSize>
-                                <FilterSizeOption>Xs</FilterSizeOption>
-                                <FilterSizeOption>S</FilterSizeOption>
-                                <FilterSizeOption>M</FilterSizeOption>
-                                <FilterSizeOption>L</FilterSizeOption>
+                                {
+                                    product.size?.map(s=>(
+                                        <FilterSizeOption key={s} >{s}</FilterSizeOption>
+                                    ))
+                                }
+
                             </FilterSize>
                     </Filter>
                 </FilterContainer>
                 <AddContainer>
                     <AmountContainer>
-                        <Remove/>
-                        <Amount>1</Amount>
-                        <Add/>
+                        <Button  onClick={ () => handleQuantity("remove")} ><Remove/></Button>
+                            <Amount>{quantity}</Amount>
+                       <Button onClick={() => handleQuantity("add")} ><Add/></Button>
                     </AmountContainer>
                     <Button>ADD TO CART</Button>
                 </AddContainer>
@@ -175,9 +213,9 @@ function Product() {
         </Wrapper>
         <Newsletter/>
         <Footer/>
-       
+
     </Container>
-  )
+    )
 }
 
 export default Product
