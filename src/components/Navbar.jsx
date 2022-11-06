@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
-import {mobile} from '../responsive'
+import {mobile} from '../responsive';
+import {useSelector} from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     height: 80px;
@@ -84,6 +86,7 @@ const Right = styled.div`
     })}
 `
 const MenuItem = styled.div`
+
     font-size: 14px;
     cursor: pointer;
     margin-left: 25px;
@@ -93,16 +96,13 @@ const MenuItem = styled.div`
         marginLeft: "10px"
     })}
 `
-const Link = styled.a`
-  margin: 5px 0px;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-`
+
 
 function Navbar() {
 
-  return (
+    const quantity = useSelector(state => state.cart.quantity)
+
+    return (
     <Container>
         <Wrapper>
             <Left>
@@ -119,22 +119,30 @@ function Navbar() {
                 </Logo>
             </Center>
             <Right>
-                <MenuItem>
-                    <Link href="/register" >Register</Link>
-                </MenuItem>
+                <Link to="/register" >
+                    <MenuItem>
+                        Register
+                    </MenuItem>
+                </Link>
                 
-                <MenuItem>
-                    <Link href="/login" >Sign in</Link>
-                </MenuItem>
-                <Badge badgeContent={4} color="primary">
-                    
-                    <ShoppingCartOutlinedIcon color="action" />
-                </Badge>
+                <Link to="/login" >
+                    <MenuItem>
+                        Sign in
+                    </MenuItem>
+                </Link>
+
+                <Link to="/cart" >
+                    <MenuItem>
+                        <Badge badgeContent={quantity} color="primary">
+                            <ShoppingCartOutlinedIcon color="action" />
+                        </Badge>
+                    </MenuItem>
+                </Link>
             </Right>
         </Wrapper>
 
     </Container>
-  )
+    )
 }
 
 export default Navbar

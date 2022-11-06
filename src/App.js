@@ -52,7 +52,7 @@ const router = createBrowserRouter(createRoutesFromElements(
 
     <Route path="/Login" element={ user ? <Navigate to="/" /> : <Login />}/>
 
-    <Route path="/Cart" element={<Cart />}/>
+    <Route path="/cart" element={<Cart />}/>
 
     <Route path="/Product/:id" element={<Product />}/>
 

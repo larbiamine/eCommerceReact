@@ -8,6 +8,7 @@ import img1 from '../imgs/cart/1.png'
 import img2 from '../imgs/cart/2.png'
 import { Add, Remove } from '@mui/icons-material'
 import { mobile } from '../responsive'
+import {useSelector} from "react-redux";
 
 const Container = styled.div`
 
@@ -161,13 +162,14 @@ const SummaryButton = styled.button`
 `
 
 function Cart() {
-  return (
+    const cart = useSelector(state=>state.cart);
+    return (
     <Container>
         <Announcements/>
         <Navbar/>
         <Wrapper>
             <Title>Your Bag</Title>
-                           
+                            
             <Top>
                 <TopButton>Continue shopping</TopButton>
                 <TopTexts>
@@ -178,53 +180,40 @@ function Cart() {
             </Top>
             <Bottom>
                 <Info>
-                    <Product>
-                        <ProductDetail>
-                            <Image src={img1} ></Image>
-                            <Details>
-                                <ProductName> <b>Product</b> Nike </ProductName>
-                                <ProductId> 547641656 </ProductId>
-                                <ProductColor color='grey' />
-                                <ProductSize> <b>Size</b> 42 </ProductSize>
 
-                            </Details>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <ProductAmountContainer>
-                                <Add/>
-                                <ProductAmount>2</ProductAmount>
-                                <Remove/>
-                            </ProductAmountContainer>
-                        <ProductPrice>25$</ProductPrice>    
-                        </PriceDetail>
-                    </Product>
-                    <Hr/>
-                    <Product>
-                        <ProductDetail>
-                            <Image src={img2} ></Image>
-                            <Details>
-                                <ProductName> <b>Product</b> Shoes </ProductName>
-                                <ProductId> 547647556 </ProductId>
-                                <ProductColor color='brown' />
-                                <ProductSize> <b>Size</b> 42 </ProductSize>
+                    { 
+                    cart.products.map((product)=>(
 
-                            </Details>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <ProductAmountContainer>
-                                <Add/>
-                                <ProductAmount>1</ProductAmount>
-                                <Remove/>
-                            </ProductAmountContainer>
-                        <ProductPrice>35$</ProductPrice>    
-                        </PriceDetail>
-                    </Product>
+                        <Product>
+                            <ProductDetail>
+                                <Image src={product.img} ></Image>
+                                <Details>
+                                    <ProductName> <b>Product</b> {product.title} </ProductName>
+                                    <ProductId> {product._id} </ProductId>
+                                    <ProductColor color={product.color} />
+                                    <ProductSize> <b>Size</b> {product.size} </ProductSize>
+
+                                </Details>
+                            </ProductDetail>
+                            <PriceDetail>
+                                <ProductAmountContainer>
+                                    <Add/>
+                                    <ProductAmount>{product.quantity}</ProductAmount>
+                                    <Remove/>
+                                </ProductAmountContainer>
+                            <ProductPrice>{product.price*product.quantity}$</ProductPrice>    
+                            </PriceDetail>
+                        </Product>
+                    ))  
+                }
+            <Hr/>
+
                 </Info>
                 <Summary>
                     <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                     <SummaryItem>
                         <SummaryItemText>Subtotal</SummaryItemText>
-                        <SummaryItemPrice>50$</SummaryItemPrice>
+                        <SummaryItemPrice>${cart.total}</SummaryItemPrice>
                     </SummaryItem>
                     <SummaryItem>
                         <SummaryItemText>Shipping</SummaryItemText>
@@ -236,7 +225,7 @@ function Cart() {
                     </SummaryItem>
                     <SummaryItem type="total">
                         <SummaryItemText  >Total</SummaryItemText>
-                        <SummaryItemPrice>55$</SummaryItemPrice>
+                        <SummaryItemPrice>{cart.total +10 -5}$</SummaryItemPrice>
                     </SummaryItem>
                     <SummaryButton>Check Out Now</SummaryButton>
                 </Summary>
@@ -244,7 +233,7 @@ function Cart() {
         </Wrapper>
         <Footer />
     </Container>
-  )
+    )
 }
 
 export default Cart
