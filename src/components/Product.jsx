@@ -17,6 +17,7 @@ const Container = styled.div`
 const Image = styled.img`
     height: 75%;
     z-index: 2;
+    mix-blend-mode: multiply  ;
 `
 const Info = styled.div`
     opacity: 0;

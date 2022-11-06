@@ -93,6 +93,12 @@ const MenuItem = styled.div`
         marginLeft: "10px"
     })}
 `
+const Link = styled.a`
+  margin: 5px 0px;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`
 
 function Navbar() {
 
@@ -113,9 +119,15 @@ function Navbar() {
                 </Logo>
             </Center>
             <Right>
-                <MenuItem>Register</MenuItem>
-                <MenuItem>Sign in</MenuItem>
+                <MenuItem>
+                    <Link href="/register" >Register</Link>
+                </MenuItem>
+                
+                <MenuItem>
+                    <Link href="/login" >Sign in</Link>
+                </MenuItem>
                 <Badge badgeContent={4} color="primary">
+                    
                     <ShoppingCartOutlinedIcon color="action" />
                 </Badge>
             </Right>
