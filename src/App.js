@@ -4,6 +4,7 @@ import Product from "./pages/Product";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
+import Success from "./pages/Success";
 
 import {
   createBrowserRouter,
@@ -53,6 +54,8 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/Login" element={ user ? <Navigate to="/" /> : <Login />}/>
 
     <Route path="/cart" element={<Cart />}/>
+    
+    <Route path="/success" element={<Success />}/>
 
     <Route path="/Product/:id" element={<Product />}/>
 
