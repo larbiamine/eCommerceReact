@@ -168,7 +168,7 @@ function Product() {
         if (size==="") {
             setSize(product.size[0])
         }
-        console.log(size)
+
         dispatch(addProduct({...product, quantity, color, size}));
     }
     

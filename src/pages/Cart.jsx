@@ -171,7 +171,7 @@ function Cart() {
 
     const [stripetoken, setStripetoken] = useState(null);
 
-    const history = useNavigate()
+    const navigate = useNavigate()
 
     const onToken = (token) => {
         setStripetoken(token);
@@ -183,15 +183,18 @@ function Cart() {
             try {
                 const res = await userRequest.post("/checkout/payment", {
                     tokenId: stripetoken.id,
-                    amout: cart.total * 100,
+                    amount: cart.total * 100,
                 })
-                history.push("/success",{data:res.data});
+                navigate("/success",{
+                    stripeData:res.data,
+                    products: cart
+                });
             } catch (error) {
                 console.log(error);
             }
         }
         stripetoken && makerequest()
-    }, [stripetoken, cart.total, history])
+    }, [stripetoken, cart.total, navigate])
 
     return (
     <Container>
