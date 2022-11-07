@@ -13,10 +13,11 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 
-const user = false;
+
 
 // const router = createBrowserRouter([
 //   {
@@ -45,26 +46,28 @@ const user = false;
 //   },
 // ]);
 
-const router = createBrowserRouter(createRoutesFromElements(  
-  <>  
-    <Route path="/" element={<Home />} />
-
-    <Route path="/Register" element={ user ? <Navigate to="/" /> : <Register />}/>
-
-    <Route path="/Login" element={ user ? <Navigate to="/" /> : <Login />}/>
-
-    <Route path="/cart" element={<Cart />}/>
-    
-    <Route path="/success" element={<Success />}/>
-
-    <Route path="/Product/:id" element={<Product />}/>
-
-    <Route path="/Products/:category" element={<ProductList />}/>
-  </>
-  )
-);
 
 const App = () => {
+  const user = useSelector(state => state.user.currentUser);
+  
+  const router = createBrowserRouter(createRoutesFromElements(  
+    <>  
+      <Route path="/" element={<Home />} />
+
+      <Route path="/Register" element={ user ? <Navigate to="/" /> : <Register />}/>
+
+      <Route path="/Login" element={ user ? <Navigate to="/" /> : <Login />}/>
+
+      <Route path="/cart" element={<Cart />}/>
+      
+      <Route path="/success" element={<Success />}/>
+
+      <Route path="/Product/:id" element={<Product />}/>
+
+      <Route path="/Products/:category" element={<ProductList />}/>
+    </>
+    )
+  );
   return( 
     <RouterProvider router={router} />   
   )

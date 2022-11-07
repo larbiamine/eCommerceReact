@@ -1,5 +1,7 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
+import { login } from '../redux/apiCalls'
 import { mobile } from '../responsive'
 
 const Container = styled.div`
@@ -34,6 +36,9 @@ const Input = styled.input`
     margin: 10px 0px;
     padding: 10px;
 `
+const Error =styled.span`
+  color: red;
+`
 
 const Button = styled.button`
     width: 40%;
@@ -43,6 +48,10 @@ const Button = styled.button`
     color: white;
     cursor: pointer;
     margin: 10px;
+    &:disabled{
+      background-color: gray;
+      cursor: not-allowed;
+    }
 `
 const Link = styled.a`
   margin: 5px 0px;
@@ -52,16 +61,37 @@ const Link = styled.a`
 `
 
 function Login() {
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+
+  const {isFetching, error} = useSelector(state=> state.user);
+
+  const handleChange = (e) => {
+    if (e.target.placeholder === "Password") {
+      setPassword(e.target.value);
+    }else{
+      setUsername(e.target.value);
+    }
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    login(dispatch, {username: username, password: password})
+  }
   return (
     <Container>
 
         <Wrapper>
           <Title>Sign In</Title>
           <Form>
-            <Input placeholder = "Email" />
-            <Input placeholder = "Password" />
+            <Input onChange={(e)=>{handleChange(e)}} placeholder = "Username" />
+            <Input onChange={(e)=>{handleChange(e)}} type="password" placeholder = "Password" />
 
-            <Button>Login</Button>
+            <Button onClick={handleClick} disabled={isFetching} >Login</Button>
+            {error && <Error> Something went Wrong</Error>}
             <Link>Forgot Password</Link>
             <Link>Create a new account</Link>
           </Form>

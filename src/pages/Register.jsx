@@ -1,6 +1,7 @@
-import React from 'react'
+import {React, useState} from 'react'
 import styled from 'styled-components'
 import { mobile } from '../responsive'
+import { publicRequest } from "../requestMethodes";
 
 const Container = styled.div`
     width: 100vw;
@@ -47,24 +48,64 @@ const Button = styled.button`
     color: white;
     cursor: pointer;
 `
+const Error = styled.span`
+  flex: 1;
+  color: #bc5656;
+  margin-top: 15px;
+`
 
 function Register() {
+  const [validError, setvalidError] = useState(false);
+  const [pwderror, setpwderror] = useState(false)
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCpassword] = useState("");
+
+  const handleCpassword = (e) => {
+    setCpassword(e.target.value);
+   if (cpassword !== password ) {
+      setpwderror(true);
+   }else{
+    setpwderror(false)
+   }
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    if (!cpassword || !password 
+      || !email || !username 
+      || !lastname || !name ) {
+      setvalidError(true);
+    }else{
+      setvalidError(false);
+    }
+
+
+    // publicRequest.post()
+  }
+
   return (
     <Container>
 
         <Wrapper>
           <Title>Create an account</Title>
           <Form>
-            <Input placeholder = "name" />
-            <Input placeholder = "lastname" />
-            <Input placeholder = "username" />
-            <Input placeholder = "email" />
-            <Input placeholder = "password" />
-            <Input placeholder = "confirm password" />
+            <Input onChange={(e)=> setName(e.target.value) } placeholder = "name" />
+            <Input onChange={(e)=> setLastname(e.target.value) } placeholder = "lastname" />
+            <Input onChange={(e)=> setUsername(e.target.value) } placeholder = "username" />
+            <Input onChange={(e)=> setEmail(e.target.value) } placeholder = "email" />
+            <Input onChange={(e)=> setPassword(e.target.value) } placeholder = "password" />
+            <Input onChange={(e)=> handleCpassword(e) } placeholder = "confirm password" />
+            { validError && <Error> Please Fill in all fields  </Error> }
+            { pwderror && <Error> Passwords dont match </Error> }
             <Agreement>
-              Donec tristique risus eu scelerisque faucibus. Duis vulputate mi eget ante <b>consequat rutrum.</b>  
+              By creating an account, I agree to the <b>Terms of service.</b>  
             </Agreement>
-            <Button>Create Account</Button>
+            <Button onClick={(e) => handleClick(e)} >Create Account</Button>
           </Form>
         </Wrapper>
     </Container>
