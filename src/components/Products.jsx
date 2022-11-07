@@ -69,7 +69,6 @@ function Products({category, filters, sort}) {
   return (
     <Container>
         {
-          
           category ? filteredProducts.map(product => (
                 <Product item={product} key={product.id} />
               )
@@ -79,8 +78,6 @@ function Products({category, filters, sort}) {
               <Product item={product} key={product.id} />
             )
           ) 
-          
-
         }
     </Container>
   )

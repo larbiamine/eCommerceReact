@@ -169,6 +169,8 @@ const SummaryButton = styled.button`
 function Cart() {
     const cart = useSelector(state=>state.cart);
 
+    const empty = cart.products > 1;
+
     const [stripetoken, setStripetoken] = useState(null);
 
     const navigate = useNavigate()
@@ -201,15 +203,17 @@ function Cart() {
         <Announcements/>
         <Navbar/>
         <Wrapper>
-            <Title>Your Bag</Title>
+            { empty && <Title>Your Bag</Title>}
+            { !empty && <Title>Your Cart is empty</Title>}
                             
             <Top>
                 <TopButton>Continue shopping</TopButton>
                 <TopTexts>
-                    <TopText>Shopping bag(2)</TopText>
+                    <TopText>Shopping bag({cart.products.length})</TopText>
                     <TopText>Your Wishlist</TopText>
                 </TopTexts>
-                <TopButton type='filled' >Checkout now</TopButton>
+                { empty && <TopButton type='filled' >Checkout now</TopButton>}
+                { !empty && <Title></Title>} 
             </Top>
             <Bottom>
                 <Info>
@@ -242,6 +246,7 @@ function Cart() {
             <Hr/>
 
                 </Info>
+            { empty && 
                 <Summary>
                     <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                     <SummaryItem>
@@ -274,6 +279,7 @@ function Cart() {
                         <SummaryButton>Check Out Now</SummaryButton>
                     </StripeCheckout>
                 </Summary>
+                }
             </Bottom>
         </Wrapper>
         <Footer />

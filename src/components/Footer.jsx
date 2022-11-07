@@ -6,6 +6,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import { mobile } from '../responsive';
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     display: flex;
@@ -42,7 +43,9 @@ const SocialIcon = styled.div`
 `
 
 const Description = styled.div`
-    margin: 20px 0px ;
+    /* margin: 15px 0px ; */
+    margin-bottom: 25px;
+    font-size: 20px;
 `
 
 const Center = styled.div`
@@ -82,13 +85,16 @@ const ContactItem = styled.div`
 const Payment = styled.img`
     width: 100%;
 `
+// const Llink = styled.Link`
+    
+// `
 
 function Footer() {
   return (
     <Container>
         <Left>
-            <Logo> Nice </Logo>
-            <Description> Nice </Description>
+            <Logo> eCommerce </Logo>
+            <Description> Nice eCommerce shop </Description>
             <Socialcontainer>
                 <SocialIcon color= "#c32aa3">
                     <InstagramIcon/>
@@ -107,8 +113,17 @@ function Footer() {
             <List>
                 <Listitem>Home</Listitem>
                 <Listitem>Cart</Listitem>
-                <Listitem>Man Fashion</Listitem>
-                <Listitem>Woman Fashion</Listitem>
+                <Listitem>
+                    <Link style={{textDecoration : "none"}} to="/products/men" >
+                        Man Fashion
+                    </Link>
+                </Listitem>
+                <Listitem>
+                    <Link style={{textDecoration : "none"}} to="/products/women" >
+                    Woman Fashion
+                    </Link>
+                </Listitem>
+
                 <Listitem>Accessories</Listitem>
                 <Listitem>My Account</Listitem>
                 <Listitem>Wishlist</Listitem>

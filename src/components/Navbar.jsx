@@ -3,7 +3,7 @@ import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components'
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-
+import { useEffect } from 'react';
 import {mobile} from '../responsive';
 import {useSelector} from "react-redux";
 import { Link } from "react-router-dom";
@@ -96,11 +96,28 @@ const MenuItem = styled.div`
         marginLeft: "10px"
     })}
 `
-
+const TopButton = styled.button`
+    margin-left: 20px;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: ${(props) => props.type === "filled" && "none" };
+    background-color: #2C1A1D;
+    color: white ;
+`
+const Username = styled.h3`
+    color: #9649CB;
+    margin-left: 5px;
+`
 
 function Navbar() {
 
-    const quantity = useSelector(state => state.cart.quantity)
+    const quantity = useSelector(state => state.cart.quantity);
+    const currentUser = useSelector(state => state.user.currentUser?.username);
+
+    useEffect(() => {
+        console.log(currentUser);
+    }, [currentUser])
 
     return (
     <Container>
@@ -119,17 +136,31 @@ function Navbar() {
                 </Logo>
             </Center>
             <Right>
-                <Link to="/register" >
-                    <MenuItem>
-                        Register
-                    </MenuItem>
-                </Link>
-                
-                <Link to="/login" >
-                    <MenuItem>
-                        Sign in
-                    </MenuItem>
-                </Link>
+                {
+                currentUser ? 
+                        <>
+                            <Language>
+                                Welcome  
+                            </Language>
+
+                            <Username>{currentUser} </Username>    
+                            <TopButton >Log Out</TopButton>
+                        </>
+                    :
+                    <>                       
+                        <Link to="/register" >
+                            <MenuItem>
+                                Register
+                            </MenuItem>
+                        </Link>
+                        
+                        <Link to="/login" >
+                            <MenuItem>
+                                Sign in
+                            </MenuItem>
+                        </Link>
+                    </>
+                }
 
                 <Link to="/cart" >
                     <MenuItem>
