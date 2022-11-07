@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import Announcements from '../components/Announcements'
 import Footer from '../components/Footer'
 import Newsletter from '../components/Newsletter'
-import imgsrc from "../imgs/categories/2.jpg"
+
 import { Add, Remove } from '@mui/icons-material'
 import { mobile } from '../responsive'
 import { useLocation } from 'react-router-dom'

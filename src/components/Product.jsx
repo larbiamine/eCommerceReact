@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import SearchIcon from '@mui/icons-material/SearchIcon'
 
 const Container = styled.div`

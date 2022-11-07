@@ -194,7 +194,7 @@ function Cart() {
             }
         }
         stripetoken && makerequest()
-    }, [stripetoken, cart.total, navigate])
+    }, [cart, stripetoken, cart.total, navigate])
 
     return (
     <Container>

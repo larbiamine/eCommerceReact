@@ -2,6 +2,9 @@ import {React, useState} from 'react'
 import styled from 'styled-components'
 import { mobile } from '../responsive'
 import { publicRequest } from "../requestMethodes";
+import { Link } from 'react-router-dom'
+import { login } from '../redux/apiCalls'
+import {useDispatch} from 'react-redux'
 
 const Container = styled.div`
     width: 100vw;
@@ -39,6 +42,7 @@ const Input = styled.input`
 const Agreement = styled.span`
   font-size: 20px;
   margin: 20px 0px;
+  text-decoration: none;
 `
 const Button = styled.button`
     width: 40%;
@@ -55,6 +59,7 @@ const Error = styled.span`
 `
 
 function Register() {
+  const [registerError, setRegisterError] = useState(false);
   const [validError, setvalidError] = useState(false);
   const [pwderror, setpwderror] = useState(false)
   const [name, setName] = useState("");
@@ -64,17 +69,39 @@ function Register() {
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
 
+
+  const dispatch = useDispatch();
+
   const handleCpassword = (e) => {
     setCpassword(e.target.value);
-   if (cpassword !== password ) {
+    if (cpassword !== password ) {
       setpwderror(true);
-   }else{
-    setpwderror(false)
-   }
+    }else{
+      setpwderror(false);
+    }
   }
 
   const handleClick = (e) => {
     e.preventDefault();
+
+    const register = async () => {
+      const user = {
+        name: name,
+        lastname: lastname,
+        username: username,
+        email: email,
+        password: password
+      };
+      console.log("USAAAAA::: "+user.name);
+      try {
+        await publicRequest.post("auth/register",user);
+        // navigate("/login");
+        login(dispatch, {username: username, password: password})
+      } catch (error) {
+        setRegisterError(true)
+        console.log(error);
+      }
+    }
 
     if (!cpassword || !password 
       || !email || !username 
@@ -82,10 +109,11 @@ function Register() {
       setvalidError(true);
     }else{
       setvalidError(false);
+      register();
     }
 
 
-    // publicRequest.post()
+    // 
   }
 
   return (
@@ -102,8 +130,13 @@ function Register() {
             <Input onChange={(e)=> handleCpassword(e) } placeholder = "confirm password" />
             { validError && <Error> Please Fill in all fields  </Error> }
             { pwderror && <Error> Passwords dont match </Error> }
+            { registerError && <Error> Something went bad... </Error> }
             <Agreement>
-              By creating an account, I agree to the <b>Terms of service.</b>  
+              
+              By creating an account, I agree to the  
+              <Link to="/tos" >
+                <b> Terms of service.</b>  
+              </Link>
             </Agreement>
             <Button onClick={(e) => handleClick(e)} >Create Account</Button>
           </Form>

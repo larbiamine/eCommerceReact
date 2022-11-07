@@ -4,6 +4,7 @@ import Product from "./pages/Product";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
+import Tos from "./pages/Tos";
 import Success from "./pages/Success";
 
 import {
@@ -59,6 +60,8 @@ const App = () => {
       <Route path="/Login" element={ user ? <Navigate to="/" /> : <Login />}/>
 
       <Route path="/cart" element={<Cart />}/>
+      
+      <Route path="/tos" element={<Tos />}/>
       
       <Route path="/success" element={<Success />}/>
 

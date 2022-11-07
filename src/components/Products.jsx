@@ -1,6 +1,5 @@
 import {React, useState, useEffect} from 'react'
 import styled from 'styled-components'
-import {popularProducts} from "../data" 
 import Product from "./Product"
 import axios from "axios"
 
@@ -62,6 +61,7 @@ function Products({category, filters, sort}) {
           [...previous].sort((a,b)=> b.price - a.price)
         )
         break;
+        default: console.log();
     }
 
   }, [sort]);
