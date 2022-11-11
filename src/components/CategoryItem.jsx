@@ -1,22 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { mobile } from '../responsive'
+import { React, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
   flex: 1;
   margin: 3px;
   height: 70vh;
   position: relative;
-`
+`;
 const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   ${mobile({
-        height: "20vh"
+    height: "20vh",
   })}
-`
+  /* filter: brightness(50%); */
+  filter: ${(props) => props.darken === true && "brightness(50%)"};
+  transition: filter 150ms linear;
+`;
 const Info = styled.div`
   position: absolute;
   width: 100%;
@@ -27,31 +30,42 @@ const Info = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 const Title = styled.h1`
   color: white;
   margin-bottom: 20px;
-`
+`;
 const Button = styled.button`
   border: none;
   padding: 10px;
   background-color: white;
-  color: gray;
+  color: black;
   cursor: pointer;
-  font-weight : 500 ;
-`
-function CategoryItem({item}) {
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: 10px;
+  &:hover {
+    background-color: #dadada;
+  }
+`;
+function CategoryItem({ item }) {
+  const [btnHover, setBtnHover] = useState(false);
   return (
     <Container>
-        <Link to={`products/${item.category}`} >
-          <Image src = {item.img} />
-          <Info>
-            <Title> {item.title} </Title>
-            <Button>Shop Now</Button>
-          </Info>
-        </Link>
+      <Link to={`products/${item.category}`}>
+        <Image darken={btnHover} src={item.img} />
+        <Info>
+          <Title> {item.title} </Title>
+          <Button
+            onMouseEnter={() => setBtnHover(true)}
+            onMouseLeave={() => setBtnHover(false)}
+          >
+            Shop Now
+          </Button>
+        </Info>
+      </Link>
     </Container>
-  )
+  );
 }
 
-export default CategoryItem
+export default CategoryItem;

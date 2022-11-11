@@ -76,8 +76,13 @@ const Description = styled.p`
 const Button = styled.button`
   padding: 10px;
   font-size: 20px;
-  background-color: transparent;
+  border-radius: 10px;
+  border: none;
   cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.hcolor};
+    filter: brightness(90%);
+  }
 `;
 
 function Slider() {
@@ -100,13 +105,13 @@ function Slider() {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleClick("right");
-    }, 5000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     handleClick("right");
+  //   }, 5000);
 
-    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-  }, [slideIndex]);
+  //   return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  // }, [slideIndex]);
 
   return (
     <Container>
@@ -123,7 +128,10 @@ function Slider() {
               <InfoContainer>
                 <Title>{slide.title}</Title>
                 <Description> {slide.description}</Description>
-                <Button onClick={() => Slidebtn(slide.category)}>
+                <Button
+                  hcolor={slide.bg}
+                  onClick={() => Slidebtn(slide.category)}
+                >
                   Shop Now
                 </Button>
               </InfoContainer>
