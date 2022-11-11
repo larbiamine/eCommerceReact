@@ -23,7 +23,8 @@
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.6",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "nth-check": ">=2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
