@@ -2,6 +2,7 @@ import { BsSearch } from "react-icons/bs";
 import styled from "styled-components";
 import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { FavoriteBorderOutlined } from "@mui/icons-material";
 import { logout } from "../redux/userRedux";
 import { emptyCart } from "../redux/cartRedux";
 import { mobile } from "../responsive";
@@ -179,6 +180,20 @@ function Navbar() {
               <Language>Welcome</Language>
 
               <Username>{currentUser} </Username>
+              <Link to="/cart">
+                <MenuItem>
+                  <Badge badgeContent={quantity} color="primary">
+                    <ShoppingCartOutlinedIcon color="action" />
+                  </Badge>
+                </MenuItem>
+              </Link>
+              <Link to="/cart">
+                <MenuItem>
+                  <Badge badgeContent={7} color="secondary">
+                    <FavoriteBorderOutlined color="action" />
+                  </Badge>
+                </MenuItem>
+              </Link>
               <TopButton filled onClick={(e) => logoutClick(e)}>
                 Log Out
               </TopButton>
@@ -192,16 +207,15 @@ function Navbar() {
               <Link to="/login">
                 <MenuItem>Sign in</MenuItem>
               </Link>
+              <Link to="/cart">
+                <MenuItem>
+                  <Badge badgeContent={quantity} color="primary">
+                    <ShoppingCartOutlinedIcon color="action" />
+                  </Badge>
+                </MenuItem>
+              </Link>
             </>
           )}
-
-          <Link to="/cart">
-            <MenuItem>
-              <Badge badgeContent={quantity} color="primary">
-                <ShoppingCartOutlinedIcon color="action" />
-              </Badge>
-            </MenuItem>
-          </Link>
         </Right>
       </Wrapper>
     </Container>

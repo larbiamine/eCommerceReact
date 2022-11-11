@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
@@ -95,23 +95,26 @@ function Slider() {
     navigate(`/Products/${category}`);
   };
 
-  const handleClick = (direction) => {
-    if (direction === "left") {
-      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
-      dispatch(setColor(slideIndex > 0 ? slideIndex - 1 : 2));
-    } else {
-      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
-      dispatch(setColor(slideIndex < 2 ? slideIndex + 1 : 0));
-    }
-  };
+  const handleClick = useCallback(
+    (direction) => {
+      if (direction === "left") {
+        setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+        dispatch(setColor(slideIndex > 0 ? slideIndex - 1 : 2));
+      } else {
+        setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+        dispatch(setColor(slideIndex < 2 ? slideIndex + 1 : 0));
+      }
+    },
+    [slideIndex, dispatch]
+  );
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     handleClick("right");
-  //   }, 5000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleClick("right");
+    }, 5000);
 
-  //   return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-  // }, [slideIndex]);
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  }, [handleClick, slideIndex]);
 
   return (
     <Container>

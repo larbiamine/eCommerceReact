@@ -6,9 +6,20 @@ import { publicRequest } from "../requestMethodes";
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const ProductsGrid = styled.div`
+  display: flex;
   flex-wrap: wrap;
   padding: 20px;
   justify-content: space-between;
+`;
+
+const Title = styled.h1`
+  font-size: 40px;
+  color: #222222;
 `;
 
 function Products({ category, filters, sort }) {
@@ -72,13 +83,16 @@ function Products({ category, filters, sort }) {
 
   return (
     <Container>
-      {category
-        ? filteredProducts.map((product) => (
-            <Product item={product} key={product._id} />
-          ))
-        : products
-            .slice(0, 8)
-            .map((product) => <Product item={product} key={product._id} />)}
+      <Title>Featured Products</Title>
+      <ProductsGrid>
+        {category
+          ? filteredProducts.map((product) => (
+              <Product item={product} key={product._id} />
+            ))
+          : products
+              .slice(0, 8)
+              .map((product) => <Product item={product} key={product._id} />)}
+      </ProductsGrid>
     </Container>
   );
 }

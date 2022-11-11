@@ -210,7 +210,7 @@ function Cart() {
       }
     };
     stripetoken && makerequest();
-  }, [cart, stripetoken, cart.total, navigate]);
+  }, [cart, stripetoken, cart.total, navigate, currentUserId]);
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { mobile } from "../responsive";
@@ -16,8 +16,8 @@ const Image = styled.img`
   ${mobile({
     height: "20vh",
   })}
-  /* filter: brightness(50%); */
-  filter: ${(props) => props.darken === true && "brightness(50%)"};
+  filter: brightness(75%);
+  filter: ${(props) => props.darken === true && "brightness(45%)"};
   transition: filter 150ms linear;
 `;
 const Info = styled.div`
