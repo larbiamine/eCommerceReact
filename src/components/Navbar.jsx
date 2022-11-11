@@ -12,11 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 const Container = styled.div`
   height: 100px;
   margin-bottom: 20px;
-  /* background-color: #afbbf2; */
-  /* background-color: #d3fff3; */
-  /* background-color: #ffb4a2; */
   background-color: ${(props) => props.color};
-  transition: background-color 1000ms linear;
+  transition: background-color 1500ms linear;
   ${mobile({
     height: "80px",
     marginBottom: "10px",

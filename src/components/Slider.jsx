@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
@@ -6,7 +6,7 @@ import { sliderItems } from "../data";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import { setColor } from "../redux/navRedux";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 const Container = styled.div`
   width: 100%;
   height: 100vh;
@@ -99,6 +99,14 @@ function Slider() {
       dispatch(setColor(slideIndex < 2 ? slideIndex + 1 : 0));
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleClick("right");
+    }, 5000);
+
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  }, [slideIndex]);
 
   return (
     <Container>
