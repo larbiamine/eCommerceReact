@@ -93,10 +93,11 @@ function Slider() {
   const handleClick = (direction) => {
     if (direction === "left") {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+      dispatch(setColor(slideIndex > 0 ? slideIndex - 1 : 2));
     } else {
       setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+      dispatch(setColor(slideIndex < 2 ? slideIndex + 1 : 0));
     }
-    dispatch(setColor(slideIndex + 1));
   };
 
   return (

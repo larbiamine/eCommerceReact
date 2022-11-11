@@ -16,6 +16,7 @@ const Container = styled.div`
   /* background-color: #d3fff3; */
   /* background-color: #ffb4a2; */
   background-color: ${(props) => props.color};
+  transition: background-color 1000ms linear;
   ${mobile({
     height: "80px",
     marginBottom: "10px",
@@ -108,10 +109,12 @@ const TopButton = styled.button`
   margin-left: 20px;
   padding: 10px;
   font-weight: 600;
+  border-radius: 10px;
   cursor: pointer;
-  border: ${(props) => props.type === "filled" && "none"};
-  background-color: #2c1a1d;
-  color: white;
+  border: none;
+  /* border-style: solid; */
+
+  color: grey;
 `;
 const Username = styled.h3`
   color: #9649cb;
@@ -131,7 +134,6 @@ const SearchButton = styled.button`
 
 function Navbar() {
   const colorRedux = useSelector((state) => state.nav.color);
-  const [color, setColor] = useState(colorRedux);
 
   const quantity = useSelector((state) => state.cart.quantity);
   const currentUser = useSelector((state) => state.user.currentUser?.username);
