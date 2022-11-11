@@ -10,12 +10,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  height: 80px;
+  height: 100px;
   margin-bottom: 20px;
-  /* background-color: #AFBBF2; */
+  /* background-color: #afbbf2; */
+  /* background-color: #d3fff3; */
+  /* background-color: #ffb4a2; */
+  background-color: ${(props) => props.color};
   ${mobile({
-    height: "50px",
-    marginBottom: "40px",
+    height: "80px",
+    marginBottom: "10px",
   })}
 `;
 const Wrapper = styled.div`
@@ -44,7 +47,7 @@ const Language = styled.span`
   })}
 `;
 const SearchContainer = styled.div`
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   display: flex;
   align-items: center;
   margin-left: 25px;
@@ -55,6 +58,10 @@ const SearchContainer = styled.div`
 `;
 const Input = styled.input`
   border: none;
+  height: 25px;
+  padding-left: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
   ${mobile({
     width: "50px",
   })}
@@ -93,7 +100,7 @@ const MenuItem = styled.div`
   margin-left: 25px;
   color: #292e2e;
   ${mobile({
-    fontSize: "12px",
+    fontSize: "100%",
     marginLeft: "10px",
   })}
 `;
@@ -111,9 +118,21 @@ const Username = styled.h3`
   margin-left: 5px;
 `;
 
-const SearchButton = styled.button``;
+const SearchButton = styled.button`
+  width: 35px;
+  height: 25px;
+  border-radius: 10px;
+  border-style: solid;
+  border: none;
+  &:hover {
+    background-color: white;
+  }
+`;
 
 function Navbar() {
+  const colorRedux = useSelector((state) => state.nav.color);
+  const [color, setColor] = useState(colorRedux);
+
   const quantity = useSelector((state) => state.cart.quantity);
   const currentUser = useSelector((state) => state.user.currentUser?.username);
   const dispatch = useDispatch();
@@ -121,7 +140,7 @@ function Navbar() {
   const [search, setSearch] = useState("");
 
   const Search = () => {
-    navigate(`/Products/${search}`);
+    search && navigate(`/Products/${search}`);
   };
 
   const logoutClick = (e) => {
@@ -131,7 +150,7 @@ function Navbar() {
   };
 
   return (
-    <Container>
+    <Container color={colorRedux}>
       <Wrapper>
         <Left>
           <Language>EN</Language>
@@ -141,7 +160,7 @@ function Navbar() {
               placeholder="Search"
             />
             <SearchButton onClick={() => Search()}>
-              <BsSearch style={{ color: "gray", fontSize: 16 }} />
+              <BsSearch style={{ color: "gray", fontSize: 12 }} />
             </SearchButton>
           </SearchContainer>
         </Left>
@@ -152,7 +171,7 @@ function Navbar() {
             }}
             to="/"
           >
-            <Logo>eCommerce</Logo>
+            <Logo>Nice Shop</Logo>
           </Link>
         </Center>
         <Right>
@@ -161,7 +180,9 @@ function Navbar() {
               <Language>Welcome</Language>
 
               <Username>{currentUser} </Username>
-              <TopButton onClick={(e) => logoutClick(e)}>Log Out</TopButton>
+              <TopButton filled onClick={(e) => logoutClick(e)}>
+                Log Out
+              </TopButton>
             </>
           ) : (
             <>

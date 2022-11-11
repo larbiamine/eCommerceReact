@@ -1,7 +1,3 @@
-import slide1 from "./imgs/slides/1.png";
-import slide2 from "./imgs/slides/2.png";
-import slide3 from "./imgs/slides/3.png";
-
 import cat1 from "./imgs/categories/1.jpg";
 import cat2 from "./imgs/categories/2.jpg";
 import cat3 from "./imgs/categories/3.jpg";

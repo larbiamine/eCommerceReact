@@ -5,11 +5,13 @@ import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDo
 import { sliderItems } from "../data";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
-
+import { setColor } from "../redux/navRedux";
+import { useSelector, useDispatch } from "react-redux";
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
+  margin-top: -20px;
   /* background-color: #AFBBF2; */
   position: relative;
   overflow: hidden;
@@ -80,7 +82,7 @@ const Button = styled.button`
 
 function Slider() {
   const [slideIndex, setSlideIndex] = useState(0);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const Slidebtn = (cat) => {
@@ -94,6 +96,7 @@ function Slider() {
     } else {
       setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
     }
+    dispatch(setColor(slideIndex + 1));
   };
 
   return (

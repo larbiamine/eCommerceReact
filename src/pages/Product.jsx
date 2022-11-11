@@ -10,7 +10,7 @@ import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
-import axios from "axios";
+import { publicRequest } from "../requestMethodes";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -149,9 +149,7 @@ function Product() {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/products/find/${id}`
-        );
+        const res = await publicRequest.get(`products/find/${id}`);
         setProduct(res.data);
       } catch (error) {
         console.log(error);
