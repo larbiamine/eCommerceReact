@@ -4,10 +4,11 @@ import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { FavoriteBorderOutlined } from "@mui/icons-material";
 import { logout } from "../redux/userRedux";
+import { setColor } from "../redux/navRedux";
 import { emptyCart } from "../redux/cartRedux";
 import { mobile } from "../responsive";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
@@ -139,6 +140,10 @@ function Navbar() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
+  useEffect(() => {
+    dispatch(setColor(0));
+  }, []);
+
   const Search = () => {
     search && navigate(`/Products/${search}`);
   };
@@ -187,7 +192,7 @@ function Navbar() {
                   </Badge>
                 </MenuItem>
               </Link>
-              <Link to="/cart">
+              <Link to="/wishlist">
                 <MenuItem>
                   <Badge badgeContent={7} color="secondary">
                     <FavoriteBorderOutlined color="action" />

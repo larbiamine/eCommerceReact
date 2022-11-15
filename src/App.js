@@ -1,9 +1,10 @@
-import Home from "./pages/Home"
+import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
 import Tos from "./pages/Tos";
 import Success from "./pages/Success";
 
@@ -12,13 +13,9 @@ import {
   createRoutesFromElements,
   RouterProvider,
   Route,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-
-
-
 
 // const router = createBrowserRouter([
 //   {
@@ -47,43 +44,39 @@ import { useSelector } from "react-redux";
 //   },
 // ]);
 
-
 const App = () => {
-  const user = useSelector(state => state.user.currentUser);
-  
-  const router = createBrowserRouter(createRoutesFromElements(  
-    <>  
-      <Route path="/" element={<Home />} />
+  const user = useSelector((state) => state.user.currentUser);
 
-      <Route path="/Register" element={ user ? <Navigate to="/" /> : <Register />}/>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="/" element={<Home />} />
 
-      <Route path="/Login" element={ user ? <Navigate to="/" /> : <Login />}/>
+        <Route
+          path="/Register"
+          element={user ? <Navigate to="/" /> : <Register />}
+        />
 
-      <Route path="/cart" element={<Cart />}/>
-      
-      <Route path="/tos" element={<Tos />}/>
-      
-      <Route path="/success" element={<Success />}/>
+        <Route path="/Login" element={user ? <Navigate to="/" /> : <Login />} />
 
-      <Route path="/Product/:id" element={<Product />}/>
+        <Route path="/cart" element={<Cart />} />
 
-      <Route path="/Products/:category" element={<ProductList />}/>
-    </>
+        <Route path="/Wishlist" element={<Wishlist />} />
+
+        <Route path="/tos" element={<Tos />} />
+
+        <Route path="/success" element={<Success />} />
+
+        <Route path="/Product/:id" element={<Product />} />
+
+        <Route path="/Products/:category" element={<ProductList />} />
+      </>
     )
   );
-  return( 
-    <RouterProvider router={router} />   
-  )
+  return <RouterProvider router={router} />;
 };
 
 export default App;
-
-
-
-
-
-
-
 
 // createBrowserRouter(
 //   createRoutesFromElements(
