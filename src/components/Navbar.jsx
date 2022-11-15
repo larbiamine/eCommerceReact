@@ -10,7 +10,7 @@ import { mobile } from "../responsive";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { userRequest } from "../requestMethodes";
 const Container = styled.div`
   height: 100px;
   margin-bottom: 20px;
@@ -133,9 +133,10 @@ const SearchButton = styled.button`
 
 function Navbar() {
   const colorRedux = useSelector((state) => state.nav.color);
-
+  const [wishListCount, setWishListCount] = useState(0);
   const quantity = useSelector((state) => state.cart.quantity);
   const currentUser = useSelector((state) => state.user.currentUser?.username);
+  const currentUserId = useSelector((state) => state.user.currentUser?._id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
@@ -143,6 +144,18 @@ function Navbar() {
   useEffect(() => {
     dispatch(setColor(0));
   }, []);
+
+  useEffect(() => {
+    const getWishlistCount = async () => {
+      try {
+        const res = await userRequest.get(`wishlist/find/${currentUserId}`);
+        setWishListCount(res.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getWishlistCount();
+  }, [wishListCount]);
 
   const Search = () => {
     search && navigate(`/Products/${search}`);
@@ -194,7 +207,7 @@ function Navbar() {
               </Link>
               <Link to="/wishlist">
                 <MenuItem>
-                  <Badge badgeContent={7} color="secondary">
+                  <Badge badgeContent={wishListCount} color="secondary">
                     <FavoriteBorderOutlined color="action" />
                   </Badge>
                 </MenuItem>

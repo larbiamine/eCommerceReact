@@ -11,6 +11,8 @@ import { ShoppingCartOutlined } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { userRequest } from "../requestMethodes";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../redux/cartRedux";
 
 // const KEY = process.env.REACT_APP_STRIPE
 const KEY =
@@ -134,12 +136,11 @@ const ProductSize = styled.span``;
 function Wishlist() {
   const currentUserId = useSelector((state) => state.user.currentUser?._id);
   const [wishlistProducts, setWishlistProducts] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const getList = async () => {
       try {
         const res = await userRequest.get(`wishlist/find/${currentUserId}`);
-        console.log(res.data);
         setWishlistProducts(res.data);
       } catch (error) {
         console.log(error);
@@ -154,6 +155,9 @@ function Wishlist() {
 
   const deleteProduct = async (e, pid) => {
     e.preventDefault();
+    var ls = wishlistProducts;
+    ls.pop(pid);
+    setWishlistProducts(ls);
     setWishlistProducts(wishlistProducts.filter((p) => p !== pid));
     try {
       const res = await userRequest.put(`wishlist/edit/${currentUserId}`, {
@@ -164,6 +168,14 @@ function Wishlist() {
     }
   };
 
+  const addToCart = (e, item) => {
+    e.preventDefault();
+    const size = item.size[0];
+    const color = item.color[0];
+    const quantity = 1;
+
+    dispatch(addProduct({ ...item, quantity, color, size }));
+  };
   useEffect(() => {
     setEmpty(wishlistProducts.length > 0);
   }, [wishlistProducts.length]);
@@ -214,12 +226,18 @@ function Wishlist() {
                         }}
                       />
                     </IconButton>
-                    <ShoppingCartOutlined
-                      style={{
-                        color: "#497b9d",
-                        marginLeft: "15px",
+                    <IconButton
+                      onClick={(e) => {
+                        addToCart(e, product);
                       }}
-                    />
+                    >
+                      <ShoppingCartOutlined
+                        style={{
+                          color: "#497b9d",
+                          marginLeft: "15px",
+                        }}
+                      />
+                    </IconButton>
                   </ProductAmountContainer>
                   <ProductPrice>{product.price}$</ProductPrice>
                 </PriceDetail>
