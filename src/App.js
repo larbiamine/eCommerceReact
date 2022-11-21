@@ -61,7 +61,7 @@ const App = () => {
 
         <Route path="/cart" element={<Cart />} />
 
-        <Route path="/Wishlist" element={<Wishlist />} />
+        <Route path="/Wishlist" element={user ? <Wishlist /> : <Login />} />
 
         <Route path="/tos" element={<Tos />} />
 

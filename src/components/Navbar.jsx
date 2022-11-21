@@ -154,7 +154,7 @@ function Navbar() {
         console.log(error);
       }
     };
-    getWishlistCount();
+    currentUser && getWishlistCount();
   }, [wishListCount]);
 
   const Search = () => {

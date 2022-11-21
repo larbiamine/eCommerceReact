@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { addProduct } from "../redux/cartRedux";
 import {
@@ -6,8 +6,10 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { userRequest } from "../requestMethodes";
+
 // import SearchIcon from '@mui/icons-material/SearchIcon'
 
 const Container = styled.div`
@@ -62,13 +64,29 @@ const Icon = styled.div`
 
 function Product({ item }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.currentUser);
+  const navigate = useNavigate();
 
   const addToCart = (item) => {
     const size = item.size[0];
     const color = item.color[0];
     const quantity = 1;
-
     dispatch(addProduct({ ...item, quantity, color, size }));
+  };
+
+  const addToWishlist = async (item) => {
+    if (!user) navigate("/login");
+    else {
+      try {
+        const res = await userRequest.post(`wishlist/${user._id}`, {
+          productId: item._id,
+        });
+        if (res.data === "Product already exists") {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -88,7 +106,11 @@ function Product({ item }) {
             <SearchOutlined />
           </Link>
         </Icon>
-        <Icon>
+        <Icon
+          onClick={() => {
+            addToWishlist(item);
+          }}
+        >
           <FavoriteBorderOutlined />
         </Icon>
       </Info>

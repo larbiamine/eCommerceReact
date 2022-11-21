@@ -164,7 +164,6 @@ const SummaryButton = styled.button`
 function Cart() {
   const cart = useSelector((state) => state.cart);
   const currentUserId = useSelector((state) => state.user.currentUser?._id);
-  // const empty = cart.products.length > 0;
 
   const [empty, setEmpty] = useState(true);
 
@@ -233,7 +232,7 @@ function Cart() {
         <Bottom>
           <Info>
             {cart.products.map((product) => (
-              <Product>
+              <Product key={product._id}>
                 <ProductDetail>
                   <Image src={product.img}></Image>
                   <Details>

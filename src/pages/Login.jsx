@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
+import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -54,7 +55,15 @@ const Button = styled.button`
     cursor: not-allowed;
   }
 `;
-const Link = styled.a`
+// const Link = styled.a`
+//   margin: 5px 0px;
+//   font-size: 12px;
+//   text-decoration: underline;
+//   cursor: pointer;
+// `;
+
+const StyledLink = styled(Link)`
+  color: black;
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
@@ -104,8 +113,8 @@ function Login() {
             Login
           </Button>
           {error && <Error> Something went Wrong</Error>}
-          <Link>Forgot Password</Link>
-          <Link>Create a new account</Link>
+          <StyledLink>Forgot Password</StyledLink>
+          <StyledLink to="/register">Create a new account</StyledLink>
         </Form>
       </Wrapper>
     </Container>

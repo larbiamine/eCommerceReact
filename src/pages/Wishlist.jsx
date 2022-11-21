@@ -14,10 +14,6 @@ import { userRequest } from "../requestMethodes";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
 
-// const KEY = process.env.REACT_APP_STRIPE
-const KEY =
-  "pk_test_51M0rOFITtvnG3529kM8UUelzpLaxIREcrnBKoLh8SdJqLarIPNxidd75y4HFuKTxUml1dlA68e9bg4woiIZVYNbF004uzzDXfY";
-
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
@@ -137,6 +133,7 @@ function Wishlist() {
   const currentUserId = useSelector((state) => state.user.currentUser?._id);
   const [wishlistProducts, setWishlistProducts] = useState([]);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const getList = async () => {
       try {

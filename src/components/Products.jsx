@@ -31,12 +31,12 @@ function Products({ category, filters, sort }) {
       try {
         let res = {};
         if (category) {
+          console.log("here");
           res = await axios.get(
             `http://localhost:5000/api/products?category=${category}`
           );
         } else {
           res = await publicRequest.get("products");
-          // res = await axios.get("http://localhost:5000/api/products");
         }
 
         setProducts(res.data);
@@ -83,6 +83,7 @@ function Products({ category, filters, sort }) {
 
   return (
     <Container>
+      {/* {!category && <Title>Featured Products</Title>} */}
       <Title>Featured Products</Title>
       <ProductsGrid>
         {category
