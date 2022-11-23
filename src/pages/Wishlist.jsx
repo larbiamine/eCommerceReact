@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { userRequest } from "../requestMethodes";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -172,6 +174,17 @@ function Wishlist() {
     const quantity = 1;
 
     dispatch(addProduct({ ...item, quantity, color, size }));
+
+    toast.info(`Item added to Cart: ${item.title}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
   useEffect(() => {
     setEmpty(wishlistProducts.length > 0);
@@ -179,6 +192,19 @@ function Wishlist() {
 
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <Announcements />
       <Navbar />
       <Wrapper>

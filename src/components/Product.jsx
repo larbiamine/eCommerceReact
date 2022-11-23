@@ -9,7 +9,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userRequest } from "../requestMethodes";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import SearchIcon from '@mui/icons-material/SearchIcon'
 
 const Container = styled.div`
@@ -72,6 +73,17 @@ function Product({ item }) {
     const color = item.color[0];
     const quantity = 1;
     dispatch(addProduct({ ...item, quantity, color, size }));
+
+    toast.info(`Item added to Cart: ${item.title}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const addToWishlist = async (item) => {
@@ -82,6 +94,27 @@ function Product({ item }) {
           productId: item._id,
         });
         if (res.data === "Product already exists") {
+          toast.info(`Product already exists`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else {
+          toast.success(`Item added to Wishlist: ${item.title}`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
       } catch (error) {
         console.log(error);
@@ -91,6 +124,20 @@ function Product({ item }) {
 
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
       {/* <Circle/> */}
       <Image src={item.img} />
       <Info>
