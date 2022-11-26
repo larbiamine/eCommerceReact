@@ -5,7 +5,9 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { FavoriteBorderOutlined } from "@mui/icons-material";
 import { logout } from "../redux/userRedux";
 import { setColor } from "../redux/navRedux";
+import { setProducts } from "../redux/wishlistRedux";
 import { emptyCart } from "../redux/cartRedux";
+import { emptyWishlist } from "../redux/wishlistRedux";
 import { mobile } from "../responsive";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
@@ -133,7 +135,10 @@ const SearchButton = styled.button`
 
 function Navbar() {
   const colorRedux = useSelector((state) => state.nav.color);
-  const [wishListCount, setWishListCount] = useState(0);
+  const initWishlistCount = useSelector(
+    (state) => state.wishlist.products.length
+  );
+  const [wishListCount, setWishListCount] = useState(initWishlistCount);
   const quantity = useSelector((state) => state.cart.quantity);
   const currentUser = useSelector((state) => state.user.currentUser?.username);
   const currentUserId = useSelector((state) => state.user.currentUser?._id);
@@ -150,12 +155,13 @@ function Navbar() {
       try {
         const res = await userRequest.get(`wishlist/find/${currentUserId}`);
         setWishListCount(res.data.length);
+        dispatch(setProducts(res.data));
       } catch (error) {
         console.log(error);
       }
     };
     currentUser && getWishlistCount();
-  }, [wishListCount]);
+  });
 
   const Search = () => {
     search && navigate(`/Products/${search}`);
@@ -165,6 +171,7 @@ function Navbar() {
     e.preventDefault();
     dispatch(logout());
     dispatch(emptyCart());
+    dispatch(emptyWishlist());
   };
 
   return (

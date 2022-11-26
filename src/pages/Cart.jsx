@@ -11,9 +11,9 @@ import StripeCheckout from "react-stripe-checkout";
 import { useNavigate } from "react-router-dom";
 import { userRequest } from "../requestMethodes";
 
-// const KEY = process.env.REACT_APP_STRIPE
-const KEY =
-  "pk_test_51M0rOFITtvnG3529kM8UUelzpLaxIREcrnBKoLh8SdJqLarIPNxidd75y4HFuKTxUml1dlA68e9bg4woiIZVYNbF004uzzDXfY";
+const KEY = import.meta.env.VITE_STRIPE;
+// const KEY =
+//   "pk_test_51M0rOFITtvnG3529kM8UUelzpLaxIREcrnBKoLh8SdJqLarIPNxidd75y4HFuKTxUml1dlA68e9bg4woiIZVYNbF004uzzDXfY";
 
 const Container = styled.div``;
 const Wrapper = styled.div`

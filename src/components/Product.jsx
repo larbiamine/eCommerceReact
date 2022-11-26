@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { addProduct } from "../redux/cartRedux";
+import { addProductw } from "../redux/wishlistRedux";
 import {
   FavoriteBorderOutlined,
   SearchOutlined,
@@ -87,6 +88,16 @@ function Product({ item }) {
   };
 
   const addToWishlist = async (item) => {
+    const toastSetup = {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    };
     if (!user) navigate("/login");
     else {
       try {
@@ -94,27 +105,10 @@ function Product({ item }) {
           productId: item._id,
         });
         if (res.data === "Product already exists") {
-          toast.info(`Product already exists`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          toast.info(`Product already exists`, toastSetup);
         } else {
-          toast.success(`Item added to Wishlist: ${item.title}`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          dispatch(addProductw(item));
+          toast.success(`Item added to Wishlist: ${item.title}`, toastSetup);
         }
       } catch (error) {
         console.log(error);
