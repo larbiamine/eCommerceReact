@@ -12,7 +12,11 @@ import { mobile } from "../responsive";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { userRequest } from "../requestMethodes";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { getWishlist } from "../utilities";
+
 const Container = styled.div`
   height: 100px;
   margin-bottom: 20px;
@@ -135,10 +139,6 @@ const SearchButton = styled.button`
 
 function Navbar() {
   const colorRedux = useSelector((state) => state.nav.color);
-  const initWishlistCount = useSelector(
-    (state) => state.wishlist.products.length
-  );
-  const [wishListCount, setWishListCount] = useState(initWishlistCount);
   const quantity = useSelector((state) => state.cart.quantity);
   const currentUser = useSelector((state) => state.user.currentUser?.username);
   const currentUserId = useSelector((state) => state.user.currentUser?._id);
@@ -150,18 +150,13 @@ function Navbar() {
     dispatch(setColor(0));
   }, []);
 
+  const { data, status, isLoading } = useQuery(["wishlist"], () =>
+    getWishlist(currentUserId)
+  );
+
   useEffect(() => {
-    const getWishlistCount = async () => {
-      try {
-        const res = await userRequest.get(`wishlist/find/${currentUserId}`);
-        setWishListCount(res.data.length);
-        dispatch(setProducts(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    currentUser && getWishlistCount();
-  });
+    status === "success" && dispatch(setProducts(data));
+  }, [status]);
 
   const Search = () => {
     search && navigate(`/Products/${search}`);
@@ -214,9 +209,15 @@ function Navbar() {
               </Link>
               <Link to="/wishlist">
                 <MenuItem>
-                  <Badge badgeContent={wishListCount} color="secondary">
-                    <FavoriteBorderOutlined color="action" />
-                  </Badge>
+                  {!isLoading ? (
+                    <Badge badgeContent={data.length} color="secondary">
+                      <FavoriteBorderOutlined color="action" />
+                    </Badge>
+                  ) : (
+                    <Badge badgeContent={0} color="secondary">
+                      <FavoriteBorderOutlined color="action" />
+                    </Badge>
+                  )}
                 </MenuItem>
               </Link>
               <TopButton filled onClick={(e) => logoutClick(e)}>

@@ -5,7 +5,7 @@ import Announcements from "../components/Announcements";
 import Footer from "../components/Footer";
 import Newsletter from "../components/Newsletter";
 
-import { Add, Remove } from "@mui/icons-material";
+import { Add, OtherHouses, Remove } from "@mui/icons-material";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -13,6 +13,21 @@ import { addProduct } from "../redux/cartRedux";
 import { publicRequest } from "../requestMethodes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+//firebaseStorage
+import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
+const apiKey = import.meta.env.VITE_FIREBASE_APIKEY;
+const firebaseConfig = {
+  apiKey: apiKey,
+  authDomain: "shop-e49b5.firebaseapp.com",
+  projectId: "shop-e49b5",
+  storageBucket: "shop-e49b5.appspot.com",
+  messagingSenderId: "744269514147",
+  appId: "1:744269514147:web:61de3edf57ae6737bbc616",
+};
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -152,7 +167,25 @@ function Product() {
     const getProduct = async () => {
       try {
         const res = await publicRequest.get(`products/find/${id}`);
-        setProduct(res.data);
+        const product = res.data;
+        const pImg = res.data.img;
+        var newPimg = "";
+        if (pImg.length == 10) {
+          const pathReference = ref(storage, `images/${pImg}`);
+          getDownloadURL(pathReference).then((url) => {
+            newPimg = url;
+            const { img, ...others } = product;
+            const newProduct = { img: newPimg, ...others };
+            console.log(newProduct);
+            setProduct(newProduct);
+          });
+          // const { img, ...others } = product;
+          // const newProduct = { img: newPimg, ...others };
+          // console.log(newProduct);
+          // setProduct(newProduct);
+        } else {
+          setProduct(product);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -167,7 +200,7 @@ function Product() {
 
     dispatch(addProduct({ ...product, quantity, color, size }));
 
-    toast.succss(`Item added to Cart: ${product.title}`, {
+    toast.success(`Item added to Cart: ${product.title}`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,

@@ -1,8 +1,23 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
 import Product from "./Product";
-import axios from "axios";
-import { publicRequest } from "../requestMethodes";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../utilities";
+import LoadingProduct from "./LoadingProduct";
+//firebaseStorage
+import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
+const apiKey = import.meta.env.VITE_FIREBASE_APIKEY;
+const firebaseConfig = {
+  apiKey: apiKey,
+  authDomain: "shop-e49b5.firebaseapp.com",
+  projectId: "shop-e49b5",
+  storageBucket: "shop-e49b5.appspot.com",
+  messagingSenderId: "744269514147",
+  appId: "1:744269514147:web:61de3edf57ae6737bbc616",
+};
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 const Container = styled.div`
   display: flex;
@@ -23,76 +38,87 @@ const Title = styled.h1`
 `;
 
 function Products({ category, filters, sort }) {
-  const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const { data, status, isLoading } = useQuery(["products"], () =>
+    getProducts(category)
+  );
+
+  // useEffect(() => {
+  //   const getProducts = async () => {
+  //     try {
+  //       let res = {};
+  //       if (category) {
+  //         res = await axios.get(
+  //           `http://localhost:5000/api/products?category=${category}`
+  //         );
+  //       } else {
+  //         res = await publicRequest.get("products");
+  //       }
+
+  //       setProducts(res.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getProducts();
+  // }, [category]);
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        let res = {};
-        if (category) {
-          console.log("here");
-          res = await axios.get(
-            `http://localhost:5000/api/products?category=${category}`
-          );
-        } else {
-          res = await publicRequest.get("products");
-        }
-
-        setProducts(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getProducts();
-  }, [category]);
-
-  useEffect(() => {
-    if (category) {
+    if (category && status === "success") {
       setFilteredProducts(
-        products.filter((item) =>
+        data.filter((item) =>
           Object.entries(filters).every(([key, value]) =>
             item[key].includes(value)
           )
         )
       );
     }
-  }, [products, category, filters]);
+  }, [category, filters]);
 
   useEffect(() => {
-    switch (sort) {
-      case "newest":
-        setFilteredProducts((previous) =>
-          [...previous].sort((a, b) => a.createdAt - b.createdAt)
-        );
-        break;
-      case "asc":
-        setFilteredProducts((previous) =>
-          [...previous].sort((a, b) => a.price - b.price)
-        );
-        break;
-      case "desc":
-        setFilteredProducts((previous) =>
-          [...previous].sort((a, b) => b.price - a.price)
-        );
-        break;
-      default:
-        console.log();
+    if (status === "success") {
+      switch (sort) {
+        case "newest":
+          setFilteredProducts((previous) =>
+            [...previous].sort((a, b) => a.createdAt - b.createdAt)
+          );
+          break;
+        case "asc":
+          setFilteredProducts((previous) =>
+            [...previous].sort((a, b) => a.price - b.price)
+          );
+          break;
+        case "desc":
+          setFilteredProducts((previous) =>
+            [...previous].sort((a, b) => b.price - a.price)
+          );
+          break;
+        default:
+          console.log();
+      }
     }
   }, [sort]);
 
+  console.log(data);
+
   return (
     <Container>
-      {/* {!category && <Title>Featured Products</Title>} */}
-      <Title>Featured Products</Title>
+      {!category && <Title>Featured Products</Title>}
+
       <ProductsGrid>
-        {category
-          ? filteredProducts.map((product) => (
+        {status === "success" ? (
+          category ? (
+            filteredProducts.map((product) => (
               <Product item={product} key={product._id} />
             ))
-          : products
+          ) : (
+            data
               .slice(0, 8)
-              .map((product) => <Product item={product} key={product._id} />)}
+              .map((product) => <Product item={product} key={product._id} />)
+          )
+        ) : (
+          <LoadingProduct />
+        )}
       </ProductsGrid>
     </Container>
   );

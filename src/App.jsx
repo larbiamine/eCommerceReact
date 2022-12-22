@@ -1,3 +1,4 @@
+//Pages
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
@@ -8,6 +9,12 @@ import Wishlist from "./pages/Wishlist";
 import Tos from "./pages/Tos";
 import Success from "./pages/Success";
 
+//React Query
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
+
+//Router
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -15,34 +22,9 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Home/>,
-//   },
-//   {
-//     path: "/Register",
-//     element: <Register/>,
-//   },
-//   {
-//     path: "/Login",
-//     element: <Login/>,
-//   },
-//   {
-//     path: "/Cart",
-//     element: <Cart/>,
-//   },
-//   {
-//     path: "/Product/:id",
-//     element:<Product/>,
-//   },
-//   {
-//     path: "/Products/:category",
-//     element:<ProductList/>,
-//   },
-// ]);
+//redux
+import { useSelector } from "react-redux";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -73,32 +55,12 @@ const App = () => {
       </>
     )
   );
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  );
 };
 
 export default App;
-
-// createBrowserRouter(
-//   createRoutesFromElements(
-//     <Route path="/" element={<Root />}>
-//       <Route path="contact" element={<Contact />} />
-//       <Route
-//         path="dashboard"
-//         element={<Dashboard />}
-//         loader={({ request }) =>
-//           fetch("/api/dashboard.json", {
-//             signal: request.signal,
-//           })
-//         }
-//       />
-//       <Route element={<AuthLayout />}>
-//         <Route
-//           path="login"
-//           element={<Login />}
-//           loader={redirectIfUser}
-//         />
-//         <Route path="logout" />
-//       </Route>
-//     </Route>
-//   )
-// );
